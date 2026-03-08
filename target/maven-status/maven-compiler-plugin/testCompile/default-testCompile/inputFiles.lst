@@ -1,5 +1,7 @@
 /Users/admin/Desktop/parabank-test/parabank-test-automation/src/test/java/com/parabank/pages/LoginPage.java
 /Users/admin/Desktop/parabank-test/parabank-test-automation/src/test/java/com/parabank/tests/BaseTest.java
 /Users/admin/Desktop/parabank-test/parabank-test-automation/src/test/java/com/parabank/config/ConfigReader.java
+/Users/admin/Desktop/parabank-test/parabank-test-automation/src/test/java/com/parabank/tests/OpenAccountTest.java
 /Users/admin/Desktop/parabank-test/parabank-test-automation/src/test/java/com/parabank/pages/BasePage.java
+/Users/admin/Desktop/parabank-test/parabank-test-automation/src/test/java/com/parabank/pages/OpenAccountPage.java
 /Users/admin/Desktop/parabank-test/parabank-test-automation/src/test/java/com/parabank/tests/LoginTest.java

@@ -6,10 +6,16 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import com.parabank.config.ConfigReader;
+import com.parabank.pages.LoginPage;
 
 public class BaseTest {
 
     protected WebDriver driver;
+
+    protected void loginAsDefaultUser() {
+        LoginPage loginPage = new LoginPage(driver);
+        loginPage.login("john", "demo");
+    }
 
     @BeforeEach
     public void setup() {

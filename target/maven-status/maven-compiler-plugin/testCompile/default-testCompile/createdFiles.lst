@@ -1,5 +1,7 @@
 com/parabank/tests/BaseTest.class
 com/parabank/pages/LoginPage.class
-com/parabank/pages/BasePage.class
+com/parabank/tests/OpenAccountTest.class
 com/parabank/config/ConfigReader.class
+com/parabank/pages/OpenAccountPage.class
+com/parabank/pages/BasePage.class
 com/parabank/tests/LoginTest.class
