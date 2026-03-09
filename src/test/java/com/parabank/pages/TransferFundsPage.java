@@ -39,7 +39,7 @@ public class TransferFundsPage extends BasePage {
         waitForVisible(toAccountDropdown);
 
         Select select = new Select(driver.findElement(toAccountDropdown));
-        select.selectByIndex(1);
+        select.selectByIndex(0);
     }
 
     public void submitTransfer() {
