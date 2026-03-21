@@ -9,35 +9,43 @@ import org.junit.jupiter.params.provider.ValueSource;
 public class TransferFundsTest extends BaseTest {
 
     @Test
-    public void userCanTransferFunds() {
+    void transferFundsPageTitleIsCorrect() {
+        TransferFundsPage transferFundsPage = loginAsDefaultUser().openTransferFundsPage();
 
-        loginAsDefaultUser();
+        Assertions.assertEquals("Transfer Funds", transferFundsPage.getTitle());
+    }
 
-        TransferFundsPage transferFundsPage = new TransferFundsPage(driver);
-
-        transferFundsPage.openPage();
-        transferFundsPage.enterAmount("100");
-        transferFundsPage.selectFromAccount();
-        transferFundsPage.selectToAccount();
-        transferFundsPage.submitTransfer();
+    @Test
+    void userCanTransferFunds() {
+        TransferFundsPage transferFundsPage = loginAsDefaultUser()
+                .openTransferFundsPage()
+                .enterAmount("100")
+                .selectFirstFromAccount()
+                .selectFirstToAccount()
+                .submitTransfer();
 
         Assertions.assertTrue(transferFundsPage.isTransferSuccessful());
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"1", "100", "500"})
-    public void userCanTransferFundsWithDifferentAmounts(String amount) {
-
-        loginAsDefaultUser();
-
-        TransferFundsPage transferFundsPage = new TransferFundsPage(driver);
-
-        transferFundsPage.openPage();
-        transferFundsPage.enterAmount(amount);
-        transferFundsPage.selectFromAccount();
-        transferFundsPage.selectToAccount();
-        transferFundsPage.submitTransfer();
+    @ValueSource(strings = {"1", "25", "100", "250"})
+    void userCanTransferFundsWithDifferentAmounts(String amount) {
+        TransferFundsPage transferFundsPage = loginAsDefaultUser()
+                .openTransferFundsPage()
+                .enterAmount(amount)
+                .selectFirstFromAccount()
+                .selectFirstToAccount()
+                .submitTransfer();
 
         Assertions.assertTrue(transferFundsPage.isTransferSuccessful());
+    }
+
+    @Test
+    void amountFieldStoresTypedTransferValue() {
+        TransferFundsPage transferFundsPage = loginAsDefaultUser()
+                .openTransferFundsPage()
+                .enterAmount("77");
+
+        Assertions.assertEquals("77", transferFundsPage.getAmountValue());
     }
 }
