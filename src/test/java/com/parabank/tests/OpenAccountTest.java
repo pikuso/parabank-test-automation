@@ -1,24 +1,40 @@
 package com.parabank.tests;
 
-import com.parabank.pages.LoginPage;
 import com.parabank.pages.OpenAccountPage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 public class OpenAccountTest extends BaseTest {
 
     @Test
-    public void userCanOpenNewAccount() {
+    void openAccountPageTitleIsCorrect() {
+        OpenAccountPage openAccountPage = loginAsDefaultUser().openNewAccountPage();
 
-        loginAsDefaultUser();
+        Assertions.assertEquals("Open New Account", openAccountPage.getTitle());
+    }
 
-        OpenAccountPage openAccountPage = new OpenAccountPage(driver);
-
-        openAccountPage.openPage();
-        openAccountPage.selectAccountType("SAVINGS");
-        openAccountPage.selectFromAccount();
-        openAccountPage.submitNewAccount();
+    @ParameterizedTest
+    @ValueSource(strings = {"SAVINGS", "CHECKING"})
+    void userCanOpenNewAccountForSupportedTypes(String accountType) {
+        OpenAccountPage openAccountPage = loginAsDefaultUser()
+                .openNewAccountPage()
+                .selectAccountType(accountType)
+                .selectFirstFromAccount()
+                .submitNewAccount();
 
         Assertions.assertTrue(openAccountPage.isAccountCreated());
+    }
+
+    @Test
+    void createdAccountHasGeneratedIdentifier() {
+        OpenAccountPage openAccountPage = loginAsDefaultUser()
+                .openNewAccountPage()
+                .selectAccountType("SAVINGS")
+                .selectFirstFromAccount()
+                .submitNewAccount();
+
+        Assertions.assertFalse(openAccountPage.getNewAccountId().isBlank());
     }
 }

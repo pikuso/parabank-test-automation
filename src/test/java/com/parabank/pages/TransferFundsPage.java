@@ -2,51 +2,61 @@ package com.parabank.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.Select;
 
 public class TransferFundsPage extends BasePage {
 
-    private By transferFundsLink = By.linkText("Transfer Funds");
-    private By amountInput = By.id("amount");
-    private By fromAccountDropdown = By.id("fromAccountId");
-    private By toAccountDropdown = By.id("toAccountId");
-    private By transferButton = By.xpath("//input[@value='Transfer']");
-    private By successMessage = By.xpath("//h1[contains(text(),'Transfer Complete')]");
+    private final By transferFundsLink = By.linkText("Transfer Funds");
+    private final By amountInput = By.id("amount");
+    private final By fromAccountDropdown = By.id("fromAccountId");
+    private final By toAccountDropdown = By.id("toAccountId");
+    private final By transferButton = By.xpath("//input[@value='Transfer']");
+    private final By successMessage = By.xpath("//h1[contains(text(),'Transfer Complete')]");
+    private final By pageTitle = By.cssSelector("h1.title");
 
     public TransferFundsPage(WebDriver driver) {
         super(driver);
     }
 
-    public void openPage() {
+    public TransferFundsPage openPage() {
         click(transferFundsLink);
+        return waitUntilLoaded();
+    }
+
+    public TransferFundsPage waitUntilLoaded() {
         waitForVisible(amountInput);
+        return this;
     }
 
-    public void enterAmount(String amount) {
+    public TransferFundsPage enterAmount(String amount) {
         type(amountInput, amount);
+        return this;
     }
 
-    public void selectFromAccount() {
-
-        waitForVisible(fromAccountDropdown);
-
-        Select select = new Select(driver.findElement(fromAccountDropdown));
-        select.selectByIndex(0);
+    public TransferFundsPage selectFirstFromAccount() {
+        selectByIndex(fromAccountDropdown, 0);
+        return this;
     }
 
-    public void selectToAccount() {
-
-        waitForVisible(toAccountDropdown);
-
-        Select select = new Select(driver.findElement(toAccountDropdown));
-        select.selectByIndex(0);
+    public TransferFundsPage selectFirstToAccount() {
+        selectByIndex(toAccountDropdown, 0);
+        return this;
     }
 
-    public void submitTransfer() {
+    public TransferFundsPage submitTransfer() {
         click(transferButton);
+        waitForVisible(successMessage);
+        return this;
     }
 
     public boolean isTransferSuccessful() {
         return isDisplayed(successMessage);
+    }
+
+    public String getAmountValue() {
+        return getValue(amountInput);
+    }
+
+    public String getTitle() {
+        return getText(pageTitle);
     }
 }

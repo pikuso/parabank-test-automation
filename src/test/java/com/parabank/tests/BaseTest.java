@@ -1,32 +1,41 @@
 package com.parabank.tests;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
+import com.parabank.config.ConfigReader;
+import com.parabank.driver.DriverFactory;
+import com.parabank.pages.AccountsOverviewPage;
+import com.parabank.pages.LoginPage;
+import java.time.Duration;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import com.parabank.config.ConfigReader;
-import com.parabank.pages.LoginPage;
+import org.openqa.selenium.WebDriver;
 
-public class BaseTest {
+public abstract class BaseTest {
 
     protected WebDriver driver;
 
-    protected void loginAsDefaultUser() {
-        LoginPage loginPage = new LoginPage(driver);
-        loginPage.login("john", "demo");
-    }
-
     @BeforeEach
     public void setup() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        driver = DriverFactory.createDriver(resolveBrowser());
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(ConfigReader.getPageLoadTimeoutSeconds()));
         driver.get(ConfigReader.getBaseUrl());
     }
 
     @AfterEach
     public void teardown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
+    }
+
+    protected String resolveBrowser() {
+        return ConfigReader.getBrowser();
+    }
+
+    protected LoginPage loginPage() {
+        return new LoginPage(driver).open();
+    }
+
+    protected AccountsOverviewPage loginAsDefaultUser() {
+        return loginPage().loginAsDefaultUser();
     }
 }
