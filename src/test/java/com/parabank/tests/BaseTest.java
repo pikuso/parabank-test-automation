@@ -13,6 +13,11 @@ public abstract class BaseTest {
 
     protected WebDriver driver;
 
+    static {
+        System.setProperty("webdriver.chrome.silentOutput", "true");
+        java.util.logging.Logger.getLogger("org.openqa.selenium").setLevel(java.util.logging.Level.OFF);
+    }
+
     @BeforeEach
     public void setup() {
         driver = DriverFactory.createDriver(resolveBrowser());

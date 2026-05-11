@@ -24,18 +24,18 @@ public class TransferFundsPage extends BasePage {
 
     public TransferFundsPage waitUntilLoaded() {
         waitForVisible(amountInput);
+        waitForElementToHaveText(fromAccountDropdown);
         return this;
+    }
+
+    private void waitForElementToHaveText(By fromAccountDropdown) {
     }
 
     public TransferFundsPage enterAmount(String amount) {
         type(amountInput, amount);
         return this;
     }
-
-    public TransferFundsPage selectFirstFromAccount() {
-        selectByIndex(fromAccountDropdown, 0);
-        return this;
-    }
+    
 
     public TransferFundsPage selectFirstToAccount() {
         selectByIndex(toAccountDropdown, 0);
@@ -58,5 +58,9 @@ public class TransferFundsPage extends BasePage {
 
     public String getTitle() {
         return getText(pageTitle);
+    }
+
+    public TransferFundsPage selectFirstFromAccount() {
+        return null;
     }
 }
