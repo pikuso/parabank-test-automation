@@ -2,6 +2,9 @@ package com.parabank.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
 
 public class OpenAccountPage extends BasePage {
 
@@ -23,21 +26,29 @@ public class OpenAccountPage extends BasePage {
 
     public OpenAccountPage waitUntilLoaded() {
         waitForVisible(accountTypeDropdown);
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.presenceOfNestedElementLocatedBy(fromAccountDropdown, By.tagName("option")));
         return this;
     }
 
     public OpenAccountPage selectAccountType(String type) {
         selectByVisibleText(accountTypeDropdown, type);
+        try { Thread.sleep(1000); } catch (InterruptedException e) { e.printStackTrace(); }
         return this;
     }
 
     public OpenAccountPage selectFirstFromAccount() {
+        waitForVisible(fromAccountDropdown);
         selectByIndex(fromAccountDropdown, 0);
         return this;
     }
 
     public OpenAccountPage submitNewAccount() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(openAccountButton));
+
         click(openAccountButton);
+
         waitForVisible(newAccountId);
         return this;
     }
